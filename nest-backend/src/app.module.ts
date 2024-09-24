@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { UserModule } from './user/user.module';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 @Module({
   imports: [
     MikroOrmModule.forRoot({
-      dbName: 'test-db',
-      type: 'postgresql',  
+      // dbName: 'test-db',
+      dbName : "datatys",
+      driver: PostgreSqlDriver,  
+      host: 'db',
       user: 'root', 
       password: 'root',
       entities: ['./dist/entities'], 
