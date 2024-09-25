@@ -6,11 +6,11 @@ import { User } from '../entities/user.entity';
 export class UserService {
   constructor(private readonly em: EntityManager) {}
 
-  //   async create(userData: Partial<User>): Promise<User> {
-  //     const user = this.em.create(User, userData);
-  //     await this.em.persistAndFlush(user);
-  //     return user;
-  //   }
+  async create(userData: Partial<User>): Promise<User> {
+    const user = this.em.create(User, userData);
+    await this.em.persistAndFlush(user);
+    return user;
+  }
 
   async getProfile(id: number): Promise<User> {
     return await this.em.findOne(User, { id });
