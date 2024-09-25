@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true,
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "moduleResolution": "node",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
