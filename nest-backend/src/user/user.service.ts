@@ -23,7 +23,6 @@ export class UserService {
     return user;
   }
 
-
   async findByEmailOrName(emailOrName: string): Promise<User | null> {
     return this.em.findOne(User, { 
       $or: [
