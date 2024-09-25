@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import MainLayout from '../components/main-layout'
-import Profile from '../components/profile'
 import AvatarUpload from '../components/avatar-upload'
 import { handleError } from '../utils/handleError'
 import { getProfile } from '../api/api-routes'
 import { User } from '../types/user'
 import { CircularProgress } from '@mui/material'
+import ProfileForm from '../components/profile-form'
+import { Box } from '@mui/system'
 
 function ProfilePage() {
   const [loadingUser, setLoadingUser] = useState(true)
-  // const [fetchUserErrorMessage, setErrorMessage] = useState<string | null>(null)
   const [user, setUser] = useState<User | undefined>(undefined)
 
   const currentUser = JSON.parse(localStorage.getItem('user') || '')
@@ -37,10 +37,25 @@ function ProfilePage() {
       {loadingUser ? (
         <CircularProgress />
       ) : (
-        <>
-          <AvatarUpload user={user} />
-          <Profile user={user} />
-        </>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+        >
+          <Box
+            sx={{
+              width: { xs: '90%', sm: '600px' }, 
+              p: 4,
+              boxShadow: 3,
+              borderRadius: 2,
+              bgcolor: 'background.paper',
+            }}
+          >
+            <AvatarUpload user={user} />
+            <ProfileForm user={user} />
+          </Box>
+        </Box>
       )}
     </MainLayout>
   )

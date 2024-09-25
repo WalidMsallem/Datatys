@@ -1,28 +1,33 @@
-import React,{ ReactNode } from 'react';
-import { AppBar, Toolbar, Typography, Container } from '@mui/material';
-import LogoutButton from './logout-button';  // Import the logout button
+import React, { ReactNode } from 'react'
+import { AppBar, Toolbar, Typography, Container } from '@mui/material'
+import LogoutButton from './logout-button'  
 
 interface LayoutProps {
-    children: ReactNode;   
-  }
+  children: ReactNode
+}
 
-const MainLayout: React.FC<LayoutProps>  = ({ children }) => {
+const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
-          Datatys – Coding Test
+    <>
+      <AppBar position="static" sx={{ bgcolor: '#153376' }}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: { xs: '0 16px', sm: '0 24px' }, 
+          }}
+        >
+          <Typography variant="h6" component="div" sx={{ color: '#fff' }}>
+            Datatys – Coding Test
           </Typography>
-          <LogoutButton />   
+          <LogoutButton />
         </Toolbar>
       </AppBar>
-      
-      <Container>
-        {children}   
-      </Container>
-    </div>
-  );
-};
 
-export default MainLayout;
+      <Container>{children}</Container>
+    </>
+  )
+}
+
+export default MainLayout

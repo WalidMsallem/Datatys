@@ -1,49 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import {
   TextField,
   Button,
-  Container,
   Typography,
-  CircularProgress,
+  Box,
 } from '@mui/material'
 import { handleError } from '../utils/handleError'
-import { getProfile, updateProfile } from '../api/api-routes'
+import { updateProfile } from '../api/api-routes'
 import { User } from '../types/user'
+import Toast from './toast'
 
- 
 interface ProfileFormProps {
-  user?: User;
+  user?: User
 }
 
-const Profile: React.FC<ProfileFormProps> = ({user}) => {
-  // const [loading, setLoading] = useState(true)
+const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  // const [user, setUser] = useState<User | null>(null)
+  const [toast, setToast] = useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error' | 'warning' | 'info',
+  });
 
-  // const currentUser = JSON.parse(localStorage.getItem('user') || '')
-  // console.log('currentUser', currentUser)
-  // Fetch user profile on component mount
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     try {
-  //       const userId = currentUser.id
-  //       const userData = await getProfile(userId)
-  //       setUser(userData)
-  //     } catch (error) {
-  //       handleError(error, setErrorMessage)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-  //   if (currentUser?.id) {
-  //     fetchUserProfile()
-  //   } else {
-  //     alert('unvalid user')
-  //   }
-  // }, [])
+  const handleToastClose = () => {
+    setToast({ ...toast, open: false });
+  };
 
-  // Formik for handling form state
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -55,23 +39,26 @@ const Profile: React.FC<ProfileFormProps> = ({user}) => {
     },
     onSubmit: async (values) => {
       try {
-        const userId = user!.id 
+        const userId = user!.id
         await updateProfile(userId, values)
         setErrorMessage(null)
-        alert('Profile updated successfully')
+        // alert('Profile updated successfully')
+        setTimeout(() => {
+          setToast({
+            open: true,
+            message: 'Profile updated successfully!',
+            severity: 'success',
+          });
+        }, 500);
       } catch (error) {
         handleError(error, setErrorMessage)
       }
     },
   })
 
-  // if (loading) {
-  //   return <CircularProgress />
-  // }
-
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
+    <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+      <Typography variant="h5" gutterBottom>
         Profile
       </Typography>
       {errorMessage && <Typography color="error">{errorMessage}</Typography>}
@@ -123,31 +110,20 @@ const Profile: React.FC<ProfileFormProps> = ({user}) => {
           onChange={formik.handleChange}
           margin="normal"
         />
-        <Button color="primary" variant="contained" fullWidth type="submit">
-          Update Profile
-        </Button>
+        <Box textAlign="center" mt={2}>
+          <Button variant="contained" color="primary" fullWidth type="submit">
+            Update Profile
+          </Button>
+        </Box>
       </form>
-    </Container>
+      <Toast
+          open={toast.open}
+          message={toast.message}
+          severity={toast.severity}
+          onClose={handleToastClose}
+        />
+    </Box>
   )
 }
 
-export default Profile
-
-// import React, { FC } from 'react'
-// import { User } from '../types/user'
-
-// interface ProfileProps {
-//   user?: User;
-// }
-
-// const Profile: FC<ProfileProps> = ({ user }) => (
-//   <div>
-//     <h1>Profile Component</h1>
-//     <h2>
-//       email:
-//       {user?.email}
-//     </h2>
-//   </div>
-// );
-
-// export default Profile
+export default ProfileForm

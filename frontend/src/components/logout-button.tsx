@@ -1,34 +1,36 @@
-import React from 'react';
-import { Button } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';  // Import the logout icon
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { Button } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 const LogoutButton: React.FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    localStorage.removeItem('user');  // Clear user data from localStorage
-    navigate('/login');  // Redirect to the login page
-  };
+    localStorage.removeItem('user')  
+    navigate('/login')  
+  }
 
   return (
     <Button
       onClick={handleLogout}
       variant="contained"
-      startIcon={<LogoutIcon />}  // Add the logout icon
       sx={{
-        backgroundColor: '#FFFFFF',  // White background
-        color: '#FF0000',  // Red text color
-        border: '1px solid #FF0000',  // Red border
+        bgcolor: '#4D4F5C',
+        color: '#fff',
+        padding: '6px 12px',
+        borderRadius: '20px',
+        display: 'flex',
+        alignItems: 'center',
         '&:hover': {
-          backgroundColor: '#FF0000',  // Red background on hover
-          color: '#FFFFFF',  // White text on hover
+          bgcolor: '#6A6C75',
         },
       }}
     >
+      <ExitToAppIcon sx={{ marginRight: '8px' }} />
       Logout
     </Button>
-  );
-};
+  )
+}
 
-export default LogoutButton;
+export default LogoutButton

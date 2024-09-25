@@ -1,5 +1,5 @@
 import axios from 'axios'
-import apiRoutes from './routes' // Import your routes
+import apiRoutes from './routes'  
 
 export const login = async (credentials: {
   emailOrName: string
@@ -7,7 +7,6 @@ export const login = async (credentials: {
 }) => {
   try {
     const response = await axios.post(apiRoutes.login, credentials)
-    console.log('Login successful:', response.data)
     return response.data
   } catch (error: any) {
     console.error('Login failed:', error.response?.data || error.message)
@@ -28,7 +27,6 @@ export const getProfile = async (userId: string) => {
   }
 }
 
-// Reusable function to update profile
 export const updateProfile = async (userId: number, profileData: any) => {
   try {
     const response = await axios.put(apiRoutes.updateProfile, {
