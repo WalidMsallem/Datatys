@@ -7,6 +7,7 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
@@ -14,6 +15,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Express } from 'express';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('user')
 export class UserController {
@@ -32,9 +35,10 @@ export class UserController {
   @Put('update')
   async updateProfile(
     @Body('id') id: number,
-    @Body() updateData: Partial<User>,
+    // @Body() updateData: Partial<User>,
+    @Body(new ValidationPipe({ whitelist: true })) updateUserDto: UpdateUserDto
   ) {
-    const updatedUser = await this.userService.update(id, updateData);
+    const updatedUser = await this.userService.update(id, updateUserDto);
     return {
       message: 'User updated successfully',
       user: updatedUser,
@@ -43,10 +47,11 @@ export class UserController {
 
   @Post('login')
   async login(
-    @Body('emailOrName') emailOrName: string,
-    @Body('password') password: string,
+    // @Body('emailOrName') emailOrName: string,
+    // @Body('password') password: string,
+    @Body(new ValidationPipe()) loginDto: LoginDto
   ) {
-    const user = await this.userService.validateUser(emailOrName, password);
+    const user = await this.userService.validateUser(loginDto);
     if (!user) {
       throw new Error('Invalid credentials');
     }

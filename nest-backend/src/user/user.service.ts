@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { User } from '../entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class UserService {
@@ -16,7 +18,7 @@ export class UserService {
     return await this.em.findOne(User, { id });
   }
 
-  async update(id: number, userData: Partial<User>): Promise<User> {
+  async update(id: number, userData: UpdateUserDto): Promise<User> {
     const user = await this.em.findOneOrFail(User, { id });
     this.em.assign(user, userData);
     await this.em.persistAndFlush(user);
@@ -29,10 +31,8 @@ export class UserService {
     });
   }
 
-  async validateUser(
-    emailOrName: string,
-    password: string,
-  ): Promise<User | null> {
+  async validateUser(loginDto: LoginDto): Promise<User | null> {
+    const { emailOrName, password } = loginDto;
     const user = await this.findByEmailOrName(emailOrName);
     if (user && user.password === password) {
       return user;
@@ -41,6 +41,10 @@ export class UserService {
   }
 
   async updateProfilePicture(userId: number, fileName: string): Promise<any> {
+    if (!fileName) {
+        return { message: 'Please upload a valid picture file' };
+      }
+
     const user = await this.em.findOneOrFail(User, { id: userId });
     this.em.assign(user, { profilePicture: fileName });
     await this.em.persistAndFlush(user);
