@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Index, PrimaryKey, Property } from '@mikro-orm/core';
 
 @Entity()
 export class User {
@@ -18,6 +18,7 @@ export class User {
   city!: string;
 
   @Property()
+  @Index({ name: '_index_users_email' })
   email!: string;
 
   @Property()
@@ -25,4 +26,16 @@ export class User {
 
   @Property({ nullable: true })
   profilePicture?: string;
+
+  @Property()
+  password!: string;
+
+  @Property({ onCreate: () => new Date() })
+  createdAt!: Date;
+
+  @Property({
+    onUpdate: () => new Date(),
+    onCreate: () => new Date(),
+  })
+  updatedAt!: Date;
 }

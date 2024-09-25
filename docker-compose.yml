@@ -5,6 +5,7 @@ services:
     build:
       context: ./nest-backend
       dockerfile: Dockerfile
+    command:  sh -c "npm run migration:create && npm run migration:up && npm run start"
     container_name: datatys-backend
     restart: unless-stopped
     env_file:
