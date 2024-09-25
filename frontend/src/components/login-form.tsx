@@ -19,7 +19,7 @@ const LoginForm: React.FC = () => {
       try {
         const response = await axios.post(apiRoutes.login, values);  
         console.log('Login successful:', response.data);
-        localStorage.setItem('user', JSON.stringify(response.data));  
+        localStorage.setItem('user', JSON.stringify(response.data.user ));  
         setErrorMessage(null);  // Clear any existing error message
         navigate('/profile');  // Redirect to profile after successful login
       } catch (error: any) {

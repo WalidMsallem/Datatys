@@ -1,23 +1,46 @@
-import axios from 'axios';
-import apiRoutes from './routes';  // Import your routes
+import axios from 'axios'
+import apiRoutes from './routes' // Import your routes
 
-export const login = async (credentials: { emailOrName: string, password: string }) => {
+export const login = async (credentials: {
+  emailOrName: string
+  password: string
+}) => {
   try {
-    const response = await axios.post(apiRoutes.login, credentials);
-    console.log('Login successful:', response.data);
-    return response.data;
-  } catch (error:any) {
-    console.error('Login failed:', error.response?.data || error.message);
-    throw error;
+    const response = await axios.post(apiRoutes.login, credentials)
+    console.log('Login successful:', response.data)
+    return response.data
+  } catch (error: any) {
+    console.error('Login failed:', error.response?.data || error.message)
+    throw error
   }
-};
+}
 
 export const getProfile = async (userId: string) => {
   try {
-    const response = await axios.get(apiRoutes.getProfile(userId));
-    return response.data;
-  } catch (error:any) {
-    console.error('Error fetching profile:', error.response?.data || error.message);
-    throw  error;
+    const response = await axios.get(apiRoutes.getProfile(userId))
+    return response.data
+  } catch (error: any) {
+    console.error(
+      'Error fetching profile:',
+      error.response?.data || error.message
+    )
+    throw error
   }
-};
+}
+
+// Reusable function to update profile
+export const updateProfile = async (userId: string, profileData: any) => {
+  try {
+    const response = await axios.put(apiRoutes.updateProfile, {
+      ...profileData,
+      id: userId,
+    })
+    return response.data
+  } catch (error: any) {
+    console.error(
+      'Error updating profile:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
