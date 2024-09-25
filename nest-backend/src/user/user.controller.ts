@@ -6,28 +6,32 @@ import { User } from '../entities/user.entity';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-//   @Post('create')
-//   async createProfile(@Body() userData: Partial<User>): Promise<User> {
-//     return this.userService.create(userData);
-//   }
+  //   @Post('create')
+  //   async createProfile(@Body() userData: Partial<User>): Promise<User> {
+  //     return this.userService.create(userData);
+  //   }
 
   @Get('profile/:id')
   async getProfile(@Param('id') id: number): Promise<User> {
     return this.userService.getProfile(id);
   }
 
-  @Put('update/:id')
+  @Put('update')
   async updateProfile(
-    @Param('id') id: number,
-    @Body() userData: Partial<User>,
-  ): Promise<User> {
-    return this.userService.update(id, userData);
+    @Body('id') id: number,
+    @Body() updateData: Partial<User>,
+  ) {
+    const updatedUser = await this.userService.update(id, updateData);
+    return {
+      message: 'User updated successfully',
+      user: updatedUser,
+    };
   }
 
   @Post('login')
   async login(
     @Body('emailOrName') emailOrName: string,
-    @Body('password') password: string
+    @Body('password') password: string,
   ) {
     const user = await this.userService.validateUser(emailOrName, password);
     if (!user) {
@@ -41,7 +45,7 @@ export class UserController {
         email: user.email,
         country: user.country,
         city: user.city,
-      }
+      },
     };
   }
 }
