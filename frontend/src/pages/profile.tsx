@@ -1,9 +1,10 @@
 import React from 'react'
+import MainLayout from '../components/main-layout'
 import Profile from '../components/profile'
 
 function ProfilePage() {
   return (
-    <div className="container">
+    <MainLayout>
       <Profile user={{
             id: 1,
             name: "string",
@@ -13,7 +14,7 @@ function ProfilePage() {
             phoneNumber: "string",
             profilePictureUrl: "string",
       }}   />
-    </div>
+    </MainLayout>
   )
 }
 
