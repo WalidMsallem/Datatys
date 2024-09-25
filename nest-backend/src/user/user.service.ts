@@ -6,11 +6,11 @@ import { User } from '../entities/user.entity';
 export class UserService {
   constructor(private readonly em: EntityManager) {}
 
-  async create(userData: Partial<User>): Promise<User> {
-    const user = this.em.create(User, userData);
-    await this.em.persistAndFlush(user);
-    return user;
-  }
+//   async create(userData: Partial<User>): Promise<User> {
+//     const user = this.em.create(User, userData);
+//     await this.em.persistAndFlush(user);
+//     return user;
+//   }
 
   async getProfile(id: number): Promise<User> {
     return await this.em.findOne(User, { id });
@@ -21,5 +21,23 @@ export class UserService {
     this.em.assign(user, userData);
     await this.em.persistAndFlush(user);
     return user;
+  }
+
+
+  async findByEmailOrName(emailOrName: string): Promise<User | null> {
+    return this.em.findOne(User, { 
+      $or: [
+        { email: emailOrName }, 
+        { name: emailOrName }
+      ] 
+    });
+  }
+
+  async validateUser(emailOrName: string, password: string): Promise<User | null> {
+    const user = await this.findByEmailOrName(emailOrName);
+    if (user && user.password === password) {
+      return user;
+    }
+    return null;
   }
 }
