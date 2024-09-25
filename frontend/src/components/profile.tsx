@@ -9,41 +9,39 @@ import {
 } from '@mui/material'
 import { handleError } from '../utils/handleError'
 import { getProfile, updateProfile } from '../api/api-routes'
+import { User } from '../types/user'
 
-interface User {
-  name: string
-  email: string
-  country: string
-  city: string
-  phoneNumber: string
+ 
+interface ProfileFormProps {
+  user?: User;
 }
 
-const Profile: React.FC = () => {
-  const [loading, setLoading] = useState(true)
+const Profile: React.FC<ProfileFormProps> = ({user}) => {
+  // const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [user, setUser] = useState<User | null>(null)
+  // const [user, setUser] = useState<User | null>(null)
 
-  const currentUser = JSON.parse(localStorage.getItem('user') || '')
-  console.log('currentUser', currentUser)
+  // const currentUser = JSON.parse(localStorage.getItem('user') || '')
+  // console.log('currentUser', currentUser)
   // Fetch user profile on component mount
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const userId = currentUser.id
-        const userData = await getProfile(userId)
-        setUser(userData)
-      } catch (error) {
-        handleError(error, setErrorMessage)
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (currentUser?.id) {
-      fetchUserProfile()
-    } else {
-      alert('unvalid user')
-    }
-  }, [])
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const userId = currentUser.id
+  //       const userData = await getProfile(userId)
+  //       setUser(userData)
+  //     } catch (error) {
+  //       handleError(error, setErrorMessage)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+  //   if (currentUser?.id) {
+  //     fetchUserProfile()
+  //   } else {
+  //     alert('unvalid user')
+  //   }
+  // }, [])
 
   // Formik for handling form state
   const formik = useFormik({
@@ -57,7 +55,7 @@ const Profile: React.FC = () => {
     },
     onSubmit: async (values) => {
       try {
-        const userId = currentUser.id 
+        const userId = user!.id 
         await updateProfile(userId, values)
         setErrorMessage(null)
         alert('Profile updated successfully')
@@ -67,9 +65,9 @@ const Profile: React.FC = () => {
     },
   })
 
-  if (loading) {
-    return <CircularProgress />
-  }
+  // if (loading) {
+  //   return <CircularProgress />
+  // }
 
   return (
     <Container maxWidth="sm">

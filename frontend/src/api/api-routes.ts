@@ -29,7 +29,7 @@ export const getProfile = async (userId: string) => {
 }
 
 // Reusable function to update profile
-export const updateProfile = async (userId: string, profileData: any) => {
+export const updateProfile = async (userId: number, profileData: any) => {
   try {
     const response = await axios.put(apiRoutes.updateProfile, {
       ...profileData,
@@ -44,3 +44,17 @@ export const updateProfile = async (userId: string, profileData: any) => {
     throw error
   }
 }
+
+export const uploadProfilePicture = async (userId: number, formData: FormData) => {
+    try {
+      const response = await axios.post(apiRoutes.uploadProfilePicture(userId), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error('Error uploading profile picture:', error.response?.data || error.message);
+      throw error;
+    }
+  };

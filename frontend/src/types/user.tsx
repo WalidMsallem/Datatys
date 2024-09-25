@@ -5,6 +5,6 @@ export interface User {
     country: string;
     city: string;
     phoneNumber: string;
-    profilePictureUrl?: string;
+    profilePicture?: string;
   }
   
