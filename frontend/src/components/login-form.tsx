@@ -70,7 +70,11 @@ const LoginForm: React.FC = () => {
             margin="normal"
             required
           />
-          <Button color="primary" variant="contained" fullWidth type="submit">
+          <Button color="primary" variant="contained" fullWidth type="submit" 
+             sx={{
+                bgcolor: '##153376',
+            }}
+          >
             Login
           </Button>
         </form>
