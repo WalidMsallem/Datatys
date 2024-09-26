@@ -18,7 +18,6 @@ const LoginForm: React.FC = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(apiRoutes.login, values)
-        console.log('Login successful:', response.data)
         localStorage.setItem('user', JSON.stringify(response.data.user))
         setErrorMessage(null)  
         navigate('/profile')  

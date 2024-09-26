@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -42,8 +42,8 @@ export class UserService {
 
   async updateProfilePicture(userId: number, fileName: string): Promise<any> {
     if (!fileName) {
-        return { message: 'Please upload a valid picture file' };
-      }
+      throw new BadRequestException('Please upload a valid picture file');
+    }
 
     const user = await this.em.findOneOrFail(User, { id: userId });
     this.em.assign(user, { profilePicture: fileName });

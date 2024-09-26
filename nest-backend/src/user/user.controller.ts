@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ValidationPipe,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
@@ -22,11 +23,6 @@ import { LoginDto } from './dto/login.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  //   @Post('create')
-  //   async createProfile(@Body() userData: Partial<User>): Promise<User> {
-  //     return this.userService.create(userData);
-  //   }
-
   @Get('profile/:id')
   async getProfile(@Param('id') id: number): Promise<User> {
     return this.userService.getProfile(id);
@@ -35,8 +31,7 @@ export class UserController {
   @Put('update')
   async updateProfile(
     @Body('id') id: number,
-    // @Body() updateData: Partial<User>,
-    @Body(new ValidationPipe({ whitelist: true })) updateUserDto: UpdateUserDto
+    @Body(new ValidationPipe({ whitelist: true })) updateUserDto: UpdateUserDto,
   ) {
     const updatedUser = await this.userService.update(id, updateUserDto);
     return {
@@ -46,14 +41,10 @@ export class UserController {
   }
 
   @Post('login')
-  async login(
-    // @Body('emailOrName') emailOrName: string,
-    // @Body('password') password: string,
-    @Body(new ValidationPipe()) loginDto: LoginDto
-  ) {
+  async login(@Body(new ValidationPipe()) loginDto: LoginDto) {
     const user = await this.userService.validateUser(loginDto);
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedException('Invalid credentials');
     }
     return {
       message: 'Login successful',
@@ -71,20 +62,19 @@ export class UserController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads/profile-pictures', // Directory to save the uploaded file
+        destination: './uploads/profile-pictures',
         filename: (req, file, cb) => {
-          const fileExtName = extname(file.originalname); // Get the file extension
-          const fileName = `${Date.now()}${fileExtName}`; // Create a unique filename
+          const fileExtName = extname(file.originalname);
+          const fileName = `${Date.now()}${fileExtName}`;
           cb(null, fileName);
         },
       }),
     }),
   )
   uploadProfilePicture(
-    @Param('userId') userId: number, // Accept user ID as URL parameter
+    @Param('userId') userId: number,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    // Call the service to update the user's profile picture
     return this.userService.updateProfilePicture(userId, file.filename);
   }
 }

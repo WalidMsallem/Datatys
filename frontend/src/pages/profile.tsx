@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Box } from '@mui/system'
 import MainLayout from '../components/main-layout'
 import AvatarUpload from '../components/avatar-upload'
 import { handleError } from '../utils/handleError'
@@ -6,7 +7,6 @@ import { getProfile } from '../api/api-routes'
 import { User } from '../types/user'
 import { CircularProgress } from '@mui/material'
 import ProfileForm from '../components/profile-form'
-import { Box } from '@mui/system'
 
 function ProfilePage() {
   const [loadingUser, setLoadingUser] = useState(true)
@@ -25,11 +25,8 @@ function ProfilePage() {
         setLoadingUser(false)
       }
     }
-    if (currentUser?.id) {
-      fetchUserProfile()
-    } else {
-      alert('unvalid user')
-    }
+
+    fetchUserProfile()
   }, [])
 
   return (
@@ -45,7 +42,7 @@ function ProfilePage() {
         >
           <Box
             sx={{
-              width: { xs: '90%', sm: '600px' }, 
+              width: { xs: '90%', sm: '600px' },
               p: 4,
               boxShadow: 3,
               borderRadius: 2,

@@ -42,7 +42,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
         const userId = user!.id
         await updateProfile(userId, values)
         setErrorMessage(null)
-        // alert('Profile updated successfully')
         setTimeout(() => {
           setToast({
             open: true,

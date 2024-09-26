@@ -1,12 +1,7 @@
-import React, { useState,   } from 'react'
-import {
-  Avatar,
-  Box,
-  CircularProgress,
-  Typography,
-} from '@mui/material'
+import React, { useState } from 'react'
+import { Avatar, Box, CircularProgress, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { uploadProfilePicture } from '../api/api-routes'  
+import { uploadProfilePicture } from '../api/api-routes'
 import { User } from '../types/user'
 import Toast from './toast'
 
@@ -17,8 +12,7 @@ interface AvatarUploadProps {
   user?: User
 }
 
-const BE_BASE_URL = process.env.BE_BASE_URL || 'http://localhost:3000'; 
-
+const BE_BASE_URL = process.env.BE_BASE_URL || 'http://localhost:3000'
 
 const AvatarUpload: React.FC<AvatarUploadProps> = ({ user }) => {
   const [profilePicture, setProfilePicture] = useState<string | null>(
@@ -29,12 +23,11 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ user }) => {
     open: false,
     message: '',
     severity: 'success' as 'success' | 'error' | 'warning' | 'info',
-  });
+  })
 
   const handleToastClose = () => {
-    setToast({ ...toast, open: false });
-  };
-
+    setToast({ ...toast, open: false })
+  }
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -46,20 +39,25 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ user }) => {
 
       try {
         setLoading(true)
-        const response = await uploadProfilePicture(user!.id, formData)  
+        const response = await uploadProfilePicture(user!.id, formData)
         setLoading(false)
         setTimeout(() => {
-            setToast({
-              open: true,
-              message: 'Profile picture updated successfully!',
-              severity: 'success',
-            });
-          }, 500);
-        setProfilePicture(response.fileName)  
-        
+          setToast({
+            open: true,
+            message: 'Profile picture updated successfully!',
+            severity: 'success',
+          })
+        }, 500)
+        setProfilePicture(response.fileName)
       } catch (error) {
         console.error('Error uploading profile picture:', error)
-        alert('Error uploading profile picture')
+        setTimeout(() => {
+          setToast({
+            open: true,
+            message: 'Error uploading profile picture',
+            severity: 'error',
+          })
+        }, 500)
       } finally {
         setLoading(false)
       }
@@ -83,14 +81,18 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ user }) => {
             onChange={handleFileChange}
           />
           <Avatar
-            src={profilePicture ? `${BE_BASE_URL}/profile-pictures/${profilePicture}` : ''}
+            src={
+              profilePicture
+                ? `${BE_BASE_URL}/profile-pictures/${profilePicture}`
+                : ''
+            }
             alt="Profile Picture"
             sx={{
-                cursor: 'pointer',
-                width: { xs: 120, sm: 150 },  // Adjust avatar size for mobile and desktop
-                height: { xs: 120, sm: 150 },
-                marginBottom: 2,
-              }}
+              cursor: 'pointer',
+              width: { xs: 120, sm: 150 }, // Adjust avatar size for mobile and desktop
+              height: { xs: 120, sm: 150 },
+              marginBottom: 2,
+            }}
           />
         </label>
       )}
@@ -100,11 +102,11 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ user }) => {
       </Typography>
 
       <Toast
-          open={toast.open}
-          message={toast.message}
-          severity={toast.severity}
-          onClose={handleToastClose}
-        />
+        open={toast.open}
+        message={toast.message}
+        severity={toast.severity}
+        onClose={handleToastClose}
+      />
     </Box>
   )
 }

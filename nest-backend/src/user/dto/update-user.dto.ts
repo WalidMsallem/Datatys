@@ -14,7 +14,9 @@ export class UpdateUserDto {
   email?: string;
 
   @IsOptional()
-  @IsPhoneNumber(null, { message: 'Invalid phone number format' })
+  // this was commented just for the purpose of the demo
+  // @IsPhoneNumber(null, { message: 'Invalid phone number format' })
+  @IsString()
   phoneNumber?: string;
 
   @IsOptional()

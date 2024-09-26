@@ -6,7 +6,6 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 @Module({
   imports: [
     MikroOrmModule.forRoot({
-      // dbName: 'test-db',
       dbName : "datatys",
       driver: PostgreSqlDriver,  
       host: 'db',
