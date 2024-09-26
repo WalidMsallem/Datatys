@@ -49,7 +49,7 @@ cd Datatys
  ##### 3- Install Dependencies
   ##### Backend
 ```bash
- cd backend
+ cd nest-backend
  npm install
 ```
   ##### Frontend:
@@ -68,6 +68,7 @@ DATABASE_PASSWORD=your_database_password
 DATABASE_NAME=your_database_name
 ```
 --Frontend: If required, create a .env file in the frontend directory.
+
  ##### 5- Database Setup
 The application uses a PostgreSQL database. You can choose to run migrations and seed data manually, or let Docker Compose handle it automatically.
  ###### Option 1: Automatic Migration and Seeding with Docker Compose (Recommended)
@@ -136,7 +137,7 @@ npm install @nestjs/passport passport passport-local
 ```
 
 Create an AuthModule and implement a LocalStrategy:
- ```code
+ ```typescript
 // auth/local.strategy.ts
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
@@ -167,7 +168,7 @@ Install bcrypt:
 npm install bcrypt
 ```
 Hash passwords before saving to the database:
- ```code
+ ```typescript
 import * as bcrypt from 'bcrypt';
 
 // In the user service or before saving the user
@@ -184,7 +185,7 @@ Install JWT packages:
 npm install @nestjs/jwt passport-jwt
 ```
 
- ```code
+ ```typescript
 // auth/jwt.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
@@ -210,7 +211,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 Why: Implementing an AuthGuard provides a centralized way to handle authorization in NestJS applications. It allows you to protect routes and ensure that only authenticated users can access certain endpoints.
 Suggestion:
 - Create a custom AuthGuard using the JWT strategy:
- ```code
+ ```typescript
  // auth/jwt-auth.guard.ts
 import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -225,7 +226,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 }
  ```
 - Use the AuthGuard to protect routes:
- ```code
+ ```typescript
 // example.controller.ts
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
@@ -329,7 +330,7 @@ getWelcome(@Req() req): string {
    "welcome_message": "Bienvenue dans notre application!"
 }
  ```
- #### 8. Testing (Unit Tests and End-to-End Tests)
+ #### 8. Monitoring
 Why: Implementing robust monitoring helps in diagnosing issues, improving performance, and maintaining the health of the application.
 Suggestion:
  - Integrate with monitoring tools (e.g., Sentry, New Relic):
@@ -344,7 +345,7 @@ import * as Sentry from '@sentry/node';
 Sentry.init({ dsn: 'your_sentry_dsn' });
  ```
 
-#### 9. Error Logging and Monitoring
+#### 9. Testing (Unit Tests and End-to-End Tests)
 Why: Implementing testing ensures code reliability, catches bugs early, and facilitates maintenance by verifying that the application works as intended.
 
 
@@ -352,6 +353,20 @@ Why: Implementing testing ensures code reliability, catches bugs early, and faci
 Set up testing frameworks, End-to-End Testing with SuperTest:
  ```bash
  npm install --save-dev supertest @types/supertest
+ ```
+
+Unit Testing with Jest:
+ ```bash
+ npm install --save-dev jest @types/jest ts-jest
+ ```
+
+Configure Jest:
+ ```json
+// jest.config.js
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+};
  ```
 
 Write Unit Tests:
@@ -377,4 +392,43 @@ describe('ExampleService', () => {
 
   // Additional tests...
 });
+ ```
+
+Write End-to-End Tests:
+ ```typescript
+// app.e2e-spec.ts
+import * as request from 'supertest';
+import { Test } from '@nestjs/testing';
+import { AppModule } from './../src/app.module';
+import { INestApplication } from '@nestjs/common';
+
+describe('AppController (e2e)', () => {
+  let app: INestApplication;
+
+  beforeAll(async () => {
+    const moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/ (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+      .expect('Hello World!');
+  });
+});
+
+ ```
+
+Run Tests:
+ ```bash
+# Run unit tests
+npm run test
+
+# Run end-to-end tests
+npm run test:e2e
  ```
