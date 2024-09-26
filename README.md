@@ -1,6 +1,6 @@
 ## End-to-End Solution for a Short Form Application
 
-This project is an end-to-end solution built using ReactJS, NodeJS, and Formik. It involves creating a short form with fields for name, last name, country, city, email, and phone number, along with an optional profile picture upload. The application adheres to the provided design guidelines and utilizes Docker, Formik, and Express as mandatory technologies.
+This project is an end-to-end solution built using ReactJS, NodeJS, and Formik. It involves creating a short form with fields for name, last name, country, city, email, and phone number, along with an optional profile picture upload. The application adheres to the provided design guidelines and utilizes Docker, Formik, and Express.
 
 
 ## Table of Contents
