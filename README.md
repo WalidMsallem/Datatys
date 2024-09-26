@@ -16,12 +16,12 @@ This project is an end-to-end solution built using ReactJS, NodeJS, and Formik. 
  - [Usage](#usage)
  - [Features](#features)
  - [Opportunities for Improvement](#opportunities-for-improvement)
-   1. [Implement Authentication with Passport.js](#implement-authentication-with-passport.js)
-   2. [Secure Password Handling](#secure-password-handling)
-   3. [Token Management with JWT](#token-management-with-jwt)
-   4. [Create an AuthGuard](#create-an-authguard)
-   5. [Implement Rate Limiting](#Implement-rate-limiting)
-   6. [Standardize API Response Structure](#Standardize-API-Response-Structure)
+   1. Implement Authentication with Passport.js
+   2. Secure Password Handling
+   3. Token Management with JWT 
+   4. Create an AuthGuard 
+   5. Implement Rate Limiting 
+   6. Standardize API Response Structure 
 
 
 
