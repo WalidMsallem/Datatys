@@ -6,22 +6,22 @@ This project is an end-to-end solution built using ReactJS, NodeJS, and Formik. 
 ## Table of Contents
  - [Technologies Used](#technologies-used)
  - [Installation](#installation)
-   1. [Clone the Repository ](#1command-line)
+   1. [Clone the Repository ](#1-clone-the-repository)
    2. [Navigate to the Project Directory](#2-navigate-to-the-project-directory)
-   3. [Install Dependencies](#3install-dependencies)
+   3. [Install Dependencies](#3-install-dependencies)
    4. [Set Up Environment Variables](#4-set-up-environment-variables)
    5. [Database Setup](#5-database-setup)
-     - [Option 1: Automatic Migration and Seeding with Docker](#place-2)  Compose (Recommended)
-     - [Start the Application](#place-2)
- - [Usage](#place-2)
- - [Features](#place-2)
- - [Opportunities for Improvement](#place-2)
-   1. [Implement Authentication with Passport.js](#place-2)
-   2. [Secure Password Handling](#place-2)
-   3. [Token Management with JWT](#place-2)
-   4. [Create an AuthGuard](#place-2)
-   5. [Implement Rate Limiting](#place-2)
-   6. [Standardize API Response Structure](#place-2)
+     - Option 1: Automatic Migration and Seeding with Docker Compose (Recommended)
+     - Option 2: Manual Migration and Seeding
+ - [Usage](#usage)
+ - [Features](#features)
+ - [Opportunities for Improvement](#opportunities-for-improvement)
+   1. [Implement Authentication with Passport.js](#implement-authentication-with-passport.js)
+   2. [Secure Password Handling](#secure-password-handling)
+   3. [Token Management with JWT](#token-management-with-jwt)
+   4. [Create an AuthGuard](#create-an-authguard)
+   5. [Implement Rate Limiting](#Implement-rate-limiting)
+   6. [Standardize API Response Structure](#Standardize-API-Response-Structure)
 
 
 
@@ -88,7 +88,7 @@ Run Migrations:
  docker-compose exec db npm run migration:up
 ```
 
-Run Migrations:
+Seed the Database:
  ```bash
  docker-compose exec backend  npm run seed
 ```
