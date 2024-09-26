@@ -6,11 +6,11 @@ This project is an end-to-end solution built using ReactJS, NodeJS, and Formik. 
 ## Table of Contents
  - [Technologies Used](#technologies-used)
  - [Installation](#installation)
-   1. [Clone the Repository ](#1-clone-the-repository)
-   2. [Navigate to the Project Directory](#2-navigate-to-the-project-directory)
-   3. [Install Dependencies](#3-install-dependencies)
-   4. [Set Up Environment Variables](#4-set-up-environment-variables)
-   5. [Database Setup](#5-database-setup)
+   1. Clone the Repository 
+   2. Navigate to the Project Directory 
+   3. Install Dependencies 
+   4. Set Up Environment Variables 
+   5. Database Setup 
      - Option 1: Automatic Migration and Seeding with Docker Compose (Recommended)
      - Option 2: Manual Migration and Seeding
  - [Usage](#usage)
